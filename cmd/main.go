@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
+	"github.com/rmar8138/go-api-test/pkg/config"
 	"github.com/rmar8138/go-api-test/pkg/handler"
 
 	m "github.com/go-chi/chi/middleware"
@@ -41,9 +42,9 @@ func main() {
 	// registers the given channel to receive os/unix notifications
 	signal.Notify(stopChan, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 
-	srv := &http.Server{Addr: ":8000", Handler: router}
+	srv := &http.Server{Addr: ":" + config.Configuration.Port, Handler: router}
 
-	log.Info("Starting server...")
+	log.Info("Starting server on port " + config.Configuration.Port)
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
